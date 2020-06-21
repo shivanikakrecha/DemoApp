@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Post list</title>
+</head>
+<body>
+	<table style="border: 1px ">
+		{% for post in posts %}
+		<tr>
+			<td>{{post.id}}<td>
+			<td>{{post.title}}</td>
+			<td>{{post.description}}</td>
+			<li><a href="{% url 'posts:post_detail' post.id %}">{{ post.title }}</a></li>
+
+			
+		</tr>
+		{% endfor %}
+	</table>
+	
+		
+</body>
+</html>

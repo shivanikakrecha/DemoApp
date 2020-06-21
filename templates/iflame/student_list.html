@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block htmlbody %}
+		<div>Student list</div>
+
+			<table>
+				<tr>
+					<th>Student ID</th>
+					<th>Student Name</th>
+					<th>Course Name</th>
+					<th>Course Content</th>
+					<th>Course Faculty</th>
+				</tr>
+				<div>Python Students</div>
+
+				{% for student in students %}
+
+						<tr>
+							<td>
+								<a href="{% url 'iflame:student_detail' student.id %}">
+								{{student.id}}</a>
+							</td>
+							<td>{{ student.student }}</td>
+							<td>{{ student.course }}</td>
+							<td>{{ student.course.content }}</td>
+							<td>{{ student.course.faculty }}</td>
+						</tr>
+				
+				{% endfor %}
+
+			</table>
+{% endblock htmlbody %}

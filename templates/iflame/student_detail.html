@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+
+{% block htmlbody %}
+
+
+	<h2 style="text-align:center">User Profile Card</h2>
+
+	<div class="card">
+	  <h1>{{ student.student.first_name }} {{ student.student.last_name }}</h1>
+	  <p class="title">{{student.course.content}}</p>
+	  <div style="margin: 24px 0;">
+	    <a href="#"><i class="fa fa-dribbble"></i></a> 
+	    <a href="#"><i class="fa fa-twitter"></i></a>  
+	    <a href="#"><i class="fa fa-linkedin"></i></a>  
+	    <a href="#"><i class="fa fa-facebook"></i></a> 
+	  </div>
+	  <p><button>Contact</button></p>
+	</div>
+
+	<!-- <div>
+		Student detail is working!
+		<p> Clickable student name is {{student.student}}</p>
+	</div> -->
+{% endblock %}
