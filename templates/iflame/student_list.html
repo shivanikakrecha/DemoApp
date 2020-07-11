@@ -2,6 +2,8 @@
 
 {% block htmlbody %}
 		<div>Student list</div>
+
+		=================== Current Day {{current_day}}
 		<div><a href="{% url 'iflame:course_create' %}">course_create</a></div>
 		<div><a href="{% url 'iflame:student_create' %}">student_create</a></div>
 
@@ -13,6 +15,8 @@
 					<th>Course Name</th>
 					<th>Course Content</th>
 					<th>Course Faculty</th>
+					<th>Edit</th>
+					<th>Delete</th>
 				</tr>
 				<div>Python Students</div>
 
@@ -27,6 +31,16 @@
 							<td>{{ student.course }}</td>
 							<td>{{ student.course.content }}</td>
 							<td>{{ student.course.faculty }}</td>
+							<td>
+								<a href="{% url 'iflame:student_edit' student.id %}">
+								<button>Edit</button></a>
+							</td>
+							<td>
+								
+								<a href="{% url 'iflame:student_delete' student.id %}">
+									<button>Delete</button>
+								</a>
+							</td>
 						</tr>
 				
 				{% endfor %}

@@ -9,7 +9,7 @@ class CourseForm(forms.ModelForm):
 
 
 class StudentInformationForm(forms.ModelForm):
-    email = forms.EmailField()
+    # email = forms.EmailField()
 
     class Meta:
         model = StudentInformation

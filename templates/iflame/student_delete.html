@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block htmlbody %}
+	<form method='POST'>
+		{% csrf_token %}
+		<div>Are you sure want to delete this student record?</div>
+		<button type='submit' style="width: 5%">Yes</button>
+		<a href="/"> <button style="width: 5%">Cancel</button> </a>
+	</form>
+	
+{% endblock %}
