@@ -2,7 +2,8 @@ from django.urls import path, include
 from iflame.views import (
     Welcome, StudentList, StudentDetail, CourseCreateView, StudentInformationView,
     StudentEditView, StudentDeleteView, StudentListClassBasedView, StudentDetailView,
-    StudentCreateView, StudentUpdateView, StudentInformationDeleteView, WelcomeView
+    StudentCreateView, StudentUpdateView, StudentInformationDeleteView, WelcomeView,
+    ContactView
 )
 
 app_name = 'iflame'
@@ -15,5 +16,6 @@ urlpatterns = [
     path('student/create', StudentCreateView.as_view(), name='student_create'),
     path('student/edit/<int:student_id>', StudentUpdateView.as_view(), name='student_edit'),
     path('student/delete/<int:student_id>',
-         StudentInformationDeleteView.as_view(), name='student_delete')
+         StudentInformationDeleteView.as_view(), name='student_delete'),
+    path('contact/', ContactView.as_view(), name='contact_page')
 ]

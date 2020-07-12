@@ -2,9 +2,14 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http import HttpResponse
 from iflame.models import StudentInformation
-from iflame.forms import CourseForm, StudentInformationForm
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
+from iflame.forms import CourseForm, StudentInformationForm, ContactForm
+from django.views.generic import (
+    ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView,
+    FormView
+)
+from django.contrib.auth.models import User
 import datetime
+
 # Create your views here.
 
 
@@ -77,9 +82,9 @@ class StudentListClassBasedView(ListView):
     template_name = 'iflame/student_list.html'
     context_object_name = 'students'
 
-    # def get_queryset(self):
-    #     queryset = StudentInformation.objects.filter(course__name='Python')
-    #     return queryset
+    def get_queryset(self):
+        queryset = StudentInformation.objects.all()
+        return queryset
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -108,11 +113,11 @@ class StudentCreateView(CreateView):
 
 
 class StudentUpdateView(UpdateView):
-        model = StudentInformation
-        form_class = StudentInformationForm
-        template_name = 'iflame/student_edit.html'
-        pk_url_kwarg = 'student_id'
-        success_url = '/'
+    model = StudentInformation
+    form_class = StudentInformationForm
+    template_name = 'iflame/student_edit.html'
+    pk_url_kwarg = 'student_id'
+    success_url = '/'
 
 
 class StudentInformationDeleteView(DeleteView):
@@ -124,3 +129,29 @@ class StudentInformationDeleteView(DeleteView):
 
 class WelcomeView(TemplateView):
     template_name = 'base.html'
+
+
+class ContactView(FormView):
+    template_name = 'iflame/contact.html'
+    form_class = ContactForm
+    success_url = '/'
+
+    def form_valid(self, form):
+        username = form.cleaned_data.get('username')
+        first_name = form.cleaned_data.get('first_name')
+        last_name = form.cleaned_data.get('last_name')
+        email = form.cleaned_data.get('email')
+
+
+        user_obj = User(
+                username=username,
+                first_name=first_name,
+                last_name=last_name,
+                email=email
+            )
+
+        user_obj.save()
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return render(self.request, 'iflame/contact.html', {'form': form})

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block htmlbody %}
+
+<div class="container" style="width: 60%; margin-left: 20%">
+	
+	<form method="POST">
+  	{% csrf_token %} 
+
+    {% for field in form %}
+
+    <div class="row">
+      <div class="col-25">
+        <label for="fname"> {{field.label_tag}}</label>
+      </div>
+      <div class="col-75">
+         {{field}}
+      </div>
+    </div>
+    
+    
+
+    {% endfor %}
+    <div class="row">
+      <input type="submit" value="Submit">
+    </div>
+  </form>
+</div>
+
+{% endblock htmlbody %}
