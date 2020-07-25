@@ -9,7 +9,7 @@ from iflame.views import (
 app_name = 'iflame'
 
 urlpatterns = [
-    path('', StudentListClassBasedView.as_view()),
+    path('', StudentListClassBasedView.as_view(), name='student_list'),
 
     path('student/<int:student_id>/', StudentDetailView.as_view(), name="student_detail"),
     path('course/create', CourseCreateView, name='course_create'),

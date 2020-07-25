@@ -1,50 +1,44 @@
 {% extends 'base.html' %}
 
 {% block htmlbody %}
-		<div>Student list</div>
+		
+		{% block pagetitle %} Student List {% endblock pagetitle %}
+	
+		<table>
+			<tr>
+				<th>Student ID</th>
+				<th>Student Name</th>
+				<th>Course Name</th>
+				<th>Course Content</th>
+				<th>Course Faculty</th>
+				<th>Edit</th>
+				<th>Delete</th>
+			</tr>
 
-		=================== Current Day {{current_day}}
-		<div><a href="{% url 'iflame:course_create' %}">course_create</a></div>
-		<div><a href="{% url 'iflame:student_create' %}">student_create</a></div>
-		<div><a href="{% url 'iflame:contact_page' %}">Contact form</a></div>
+			{% for student in students %}
 
+					<tr>
+						<td>
+							<a href="{% url 'iflame:student_detail' student.id %}">
+							{{student.id}}</a>
+						</td>
+						<td>{{ student.student }}</td>
+						<td>{{ student.course }}</td>
+						<td>{{ student.course.content }}</td>
+						<td>{{ student.course.faculty }}</td>
+						<td>
+							<a href="{% url 'iflame:student_edit' student.id %}">
+							<button>Edit</button></a>
+						</td>
+						<td>
+							
+							<a href="{% url 'iflame:student_delete' student.id %}">
+								<button>Delete</button>
+							</a>
+						</td>
+					</tr>
+			
+			{% endfor %}
 
-			<table>
-				<tr>
-					<th>Student ID</th>
-					<th>Student Name</th>
-					<th>Course Name</th>
-					<th>Course Content</th>
-					<th>Course Faculty</th>
-					<th>Edit</th>
-					<th>Delete</th>
-				</tr>
-				<div>Python Students</div>
-
-				{% for student in students %}
-
-						<tr>
-							<td>
-								<a href="{% url 'iflame:student_detail' student.id %}">
-								{{student.id}}</a>
-							</td>
-							<td>{{ student.student }}</td>
-							<td>{{ student.course }}</td>
-							<td>{{ student.course.content }}</td>
-							<td>{{ student.course.faculty }}</td>
-							<td>
-								<a href="{% url 'iflame:student_edit' student.id %}">
-								<button>Edit</button></a>
-							</td>
-							<td>
-								
-								<a href="{% url 'iflame:student_delete' student.id %}">
-									<button>Delete</button>
-								</a>
-							</td>
-						</tr>
-				
-				{% endfor %}
-
-			</table>
+		</table>
 {% endblock htmlbody %}

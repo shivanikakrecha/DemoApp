@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block htmlbody %}
+
+<div>
+	<h2> Register Your self </h2>
+	
+	<form action="{% url 'signup' %}" method="POST">
+	  <div class="imgcontainer">
+	    <img src="/home/codal/DemoApp/static/app/iflame/dummy_profile.png" alt="Avatar" class="avatar">
+	  </div>
+
+	  <div class="container">
+	  	{% csrf_token %}
+	  	{{ form.as_p }}
+
+	    <button type="submit">Sign Up</button>
+	    
+	  </div>
+
+
+	</form>
+</div>
+
+{% endblock htmlbody %}

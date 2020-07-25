@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block htmlbody %}
+	<p>Profile is working!! </p>
+
+	{% for user in userprofile %}
+		<div class="card">
+		  <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+		  <p class="title">{{user.email}}</p>
+		  <div style="margin: 24px 0;">
+		    <a href="#"><i class="fa fa-dribbble"></i></a> 
+		    <a href="#"><i class="fa fa-twitter"></i></a>  
+		    <a href="#"><i class="fa fa-linkedin"></i></a>  
+		    <a href="#"><i class="fa fa-facebook"></i></a> 
+		  </div>
+		  <p><button>Contact</button></p>
+		  <p><button>
+		  	<a href="{% url 'password_change' %}">Change Password</a>
+			</button></p>
+		</div>
+	{% endfor %}
+{% endblock htmlbody %}
