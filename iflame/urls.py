@@ -3,7 +3,7 @@ from iflame.views import (
     Welcome, StudentList, StudentDetail, CourseCreateView, StudentInformationView,
     StudentEditView, StudentDeleteView, StudentListClassBasedView, StudentDetailView,
     StudentCreateView, StudentUpdateView, StudentInformationDeleteView, WelcomeView,
-    ContactView
+    ContactView, SearchView
 )
 
 app_name = 'iflame'
@@ -17,5 +17,6 @@ urlpatterns = [
     path('student/edit/<int:student_id>', StudentUpdateView.as_view(), name='student_edit'),
     path('student/delete/<int:student_id>',
          StudentInformationDeleteView.as_view(), name='student_delete'),
-    path('contact/', ContactView.as_view(), name='contact_page')
+    path('contact/', ContactView.as_view(), name='contact_page'),
+    path('search/', SearchView.as_view(), name='search_view')
 ]

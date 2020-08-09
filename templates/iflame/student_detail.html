@@ -1,15 +1,17 @@
 {% extends 'base.html' %}
-
+{% load static %}
 
 {% block htmlbody %}
-
 
 	<h2 style="text-align:center">User Profile Card</h2>
 
 	<div class="card">
 	  <h1>{{ student.student.first_name }} {{ student.student.last_name }}</h1>
+		<img src="{% static 'app/iflame/dummy_profile.png' %}">
+	  
 	  <p class="title">{{student.course.content}}</p>
 	  <div style="margin: 24px 0;">
+
 	    <a href="#"><i class="fa fa-dribbble"></i></a> 
 	    <a href="#"><i class="fa fa-twitter"></i></a>  
 	    <a href="#"><i class="fa fa-linkedin"></i></a>  

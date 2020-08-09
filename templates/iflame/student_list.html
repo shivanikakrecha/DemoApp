@@ -1,9 +1,20 @@
 {% extends 'base.html' %}
+{% load static %}
+
+
 
 {% block htmlbody %}
 		
 		{% block pagetitle %} Student List {% endblock pagetitle %}
-	
+		
+
+		
+		<form method="GET" action="{% url 'iflame:search_view'  %}">
+			<input type="text" name="q"  >
+			<button type="submit">search</button>
+
+		</form>
+
 		<table>
 			<tr>
 				<th>Student ID</th>
@@ -11,11 +22,52 @@
 				<th>Course Name</th>
 				<th>Course Content</th>
 				<th>Course Faculty</th>
+				<th>Course Image</th>
+				<th>Course Syllabus</th>
 				<th>Edit</th>
 				<th>Delete</th>
 			</tr>
 
-			{% for student in students %}
+			{% if search_results %}
+
+				{% for student in search_results %}
+
+						<tr>
+							<td>
+								<a href="{% url 'iflame:student_detail' student.id %}">
+								{{student.id}}</a>
+							</td>
+							<td>{{ student.student }}</td>
+							<td>{{ student.course }}</td>
+							<td>{{ student.course.content }}</td>
+							<td>{{ student.course.faculty }}</td>
+							{% if student.course.avtar %}
+								<td><img src="{{ student.course.avtar.url }}"></td>
+							{% else %}
+								<td><img src="{{ student.course.avtar }}"></td>
+							{% endif %}
+							{% if student.course.syllabus %}
+								<td><a href="{{ student.course.syllabus.url }}">Syllabus</a></td>
+							{% else %}
+								<td>{{ student.course.avtar }}</td>
+							{% endif %}
+							<td>
+								<a href="{% url 'iflame:student_edit' student.id %}">
+								<button>Edit</button></a>
+							</td>
+							<td>
+								
+								<a href="{% url 'iflame:student_delete' student.id %}">
+									<button>Delete</button>
+								</a>
+							</td>
+						</tr>
+				
+				{% endfor %}
+
+			{% else %}
+
+				{% for student in students %}
 
 					<tr>
 						<td>
@@ -26,6 +78,16 @@
 						<td>{{ student.course }}</td>
 						<td>{{ student.course.content }}</td>
 						<td>{{ student.course.faculty }}</td>
+						{% if student.course.avtar %}
+							<td><img src="{{ student.course.avtar.url }}"></td>
+						{% else %}
+							<td><img src="{{ student.course.avtar }}"></td>
+						{% endif %}
+						{% if student.course.syllabus %}
+							<td><a href="{{ student.course.syllabus.url }}">Syllabus</a></td>
+						{% else %}
+							<td>{{ student.course.avtar }}</td>
+						{% endif %}
 						<td>
 							<a href="{% url 'iflame:student_edit' student.id %}">
 							<button>Edit</button></a>
@@ -38,7 +100,12 @@
 						</td>
 					</tr>
 			
-			{% endfor %}
+				{% endfor %}
+
+			{% endif %}
+
+					
 
 		</table>
 {% endblock htmlbody %}
+

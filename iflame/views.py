@@ -1,3 +1,6 @@
+import json
+from django.core import serializers
+from django.http import JsonResponse
 from django.contrib.auth import update_session_auth_hash
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -14,6 +17,8 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import logout
 from django.contrib.auth.forms import PasswordChangeForm
+from iflame.decorators import only_superuser_allow
+from django.template.loader import render_to_string
 # Create your views here.
 
 
@@ -88,9 +93,9 @@ class StudentListClassBasedView(LoginRequiredMixin, ListView):
     context_object_name = 'students'
     login_url = '/'
 
-    def get_queryset(self):
-        queryset = StudentInformation.objects.all()
-        return queryset
+    # def get_queryset(self):
+    #     queryset = StudentInformation.objects.all()
+    #     return queryset
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -110,12 +115,17 @@ class StudentDetailView(DetailView):
     #     return context
 
 
+@method_decorator(only_superuser_allow, name='dispatch')
 class StudentCreateView(CreateView):
     model = StudentInformation
     # fields = ['student', 'course', 'is_paid']
     form_class = StudentInformationForm
     template_name = 'iflame/create_course.html'
     success_url = '/iflame'
+
+    # @method_decorator(only_superuser_allow)
+    # def dispatch(self, *args, **kwargs):
+    #     return super().dispatch(*args, **kwargs)
 
 
 class StudentUpdateView(UpdateView):
@@ -216,3 +226,44 @@ def change_password(request):
         form = PasswordChangeForm(request.user)
     context['form'] = form
     return render(request, "registration/password_change_form.html", context)
+
+
+# def SearchView(request):
+#     q = request.GET.get('q')
+#     if request.is_ajax():
+
+#         if q:
+#             content = list(StudentInformation.objects.filter(
+#                 student__username__icontains=q))
+#         else:
+#             content = list(StudentInformation.objects.all())
+#         data = serializers.serialize('json', content)
+#         return HttpResponse(data, content_type='application/json')
+#     else:
+#         raise Http404
+
+from django.db.models import Q
+class SearchView(LoginRequiredMixin, ListView):
+
+    model = StudentInformation
+    template_name = 'iflame/student_list.html'
+    context_object_name = 'search_results'
+    login_url = '/'
+    def get_queryset(self, *args, **kwargs):
+
+        queryset = super(SearchView, self).get_queryset(*args, **kwargs)
+
+        q = self.request.GET.get('q')
+        if q:
+            queryset = queryset.filter(Q(student__username__icontains=q) | Q(student__first_name__icontains=q) |
+                Q(course__name__icontains=q) | Q(course__content__icontains=q))
+
+        # if self.request.is_ajax():
+        #     search_results = json.dumps(queryset)
+        #     html = render_to_string(
+        #         'iflame/student_list.html', {'search_results': queryset})
+
+        #     return HttpResponse(queryset, content_type='application/json')
+
+        return queryset
+        # return HttpResponse(json.dumps({"data": queryset}), content_type='application/json')

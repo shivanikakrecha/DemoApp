@@ -13,6 +13,8 @@ class Course(models.Model):
     end_date = models.DateField(null=True, blank=True)
     faculty = models.CharField(max_length=30)
     slug = models.SlugField(null=True, blank=True, max_length=20)
+    avtar = models.ImageField(upload_to='avtar/',  null=True, blank=True)
+    syllabus = models.FileField(upload_to='syllabus/', null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -32,6 +34,7 @@ class StudentInformation(models.Model):
 
     def __str__(self):
         return self.student.first_name
+
 
     # def get_absolute_url(self):
     #     return reverse('iflame:student_detail', kwargs={'student_id': self.id})
