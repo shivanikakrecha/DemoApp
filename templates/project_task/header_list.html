@@ -1,0 +1,29 @@
+<li class="dropdown">
+    <a href="#" class="nav-link dropdown-toggle arrow" data-toggle="dropdown">Category</a>
+    <ul class="dropdown-menu">
+    	{% for category in categories %}
+			<li><a href="{% url 'project_task:product_filter_category' category.id %}">{{category.name}}</a></li>
+		{% endfor %}
+    </ul>
+</li>
+
+<li class="dropdown">
+    <a href="#" class="nav-link dropdown-toggle arrow" data-toggle="dropdown">Brand</a>
+    <ul class="dropdown-menu">
+    	{% for b in brand %}
+			<li><a href="{% url 'project_task:product_filter_brand' b.id %}">{{b.name}}</a></li>
+		{% endfor %}
+    </ul>
+</li>
+
+<li class="dropdown">
+    <a href="#" class="nav-link dropdown-toggle arrow" data-toggle="dropdown">Mobile & Accesories</a>
+    <ul class="dropdown-menu">
+    	{% for b in brand %}
+			<li><a href="{% url 'project_task:product_filter_brand' b.id %}">{{b.name}}</a></li>
+		{% endfor %}
+		{% for category in categories %}
+			<li><a href="{% url 'project_task:product_filter_category' category.id %}">{{category.name}}</a></li>
+		{% endfor %}
+    </ul>
+</li>

@@ -14,8 +14,42 @@
 			<button type="submit">search</button>
 
 		</form>
+		{% if search_results %}
+			{% for student in search_results %}
+				<div class="card">
+					{% if student.course.avtar %}
+						<img src="{{ student.course.avtar.url }}" alt="Denim Jeans" style="width:100%">
+					{% else %}
+						<img src="{{ student.course.avtar }}" alt="Denim Jeans" style="width:100%">
+					{% endif %}	
+				    <h1>{{ student.student }}</h1>
+				    <p class="price">{{ student.course }}</p>
+				    <p>{{ student.course.content }}</p>
+				    <p><button>Add to Cart</button></p>
+				</div>
+			{% endfor %}
 
-		<table>
+		{% else %}
+
+			{% for student in students %}
+				<div class="card">
+					{% if student.course.avtar %}
+						<img src="{{ student.course.avtar.url }}" alt="Denim Jeans" style="width:100%">
+					{% else %}
+						<img src="{{ student.course.avtar }}" alt="Denim Jeans" style="width:100%">
+					{% endif %}	
+				    <h1>{{ student.student }}</h1>
+				    <p class="price">{{ student.course }}</p>
+				    <p>{{ student.course.content }}</p>
+				    <p><button>Add to Cart</button></p>
+				</div>
+
+			{% endfor %}
+
+		{% endif %}
+
+
+		<!-- <table>
 			<tr>
 				<th>Student ID</th>
 				<th>Student Name</th>
@@ -103,7 +137,7 @@
 				{% endfor %}
 
 			{% endif %}
-
+ -->
 					
 
 		</table>

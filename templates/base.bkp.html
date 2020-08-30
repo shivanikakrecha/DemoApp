@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		Welcome Page!
+	</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="{% static 'app/css/copy_googlefont.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'app/css/custom.css' %}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="{% static 'app/js/custom_app.js' %}"></script>
+	
+</script>
+</head>
+<body>
+
+	<div></div>
+
+	<div class="topnav">
+	  <a class="active" href="{% url 'iflame:student_list' %}">Home</a>
+	  <a href="{% url 'iflame:course_create' %}">course_create</a>
+	  <a href="{% url 'iflame:contact_page' %}">Contact form</a>
+	  <a href="{% url 'iflame:student_create' %}">student_create</a>
+	  <a href="{% url 'userprofile' %}"> My Profile </a>
+	  <a href="{% url 'logout' %}">Logout</a>
+	</div>
+
+	<div style="padding-left:16px">
+	  <h2>{% block pagetitle %}{% endblock pagetitle %}</h2>
+	</div>
+
+	{% block htmlbody %}
+		<div>Welcome to the iflame! Here is the list of django student.</div>
+	{% endblock htmlbody %}
+
+	{% block extracontent %}	
+	{% endblock extracontent %}
+
+</body>
+</html>

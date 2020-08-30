@@ -1,3 +1,4 @@
+from django.db.models import Q
 import json
 from django.core import serializers
 from django.http import JsonResponse
@@ -19,6 +20,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.forms import PasswordChangeForm
 from iflame.decorators import only_superuser_allow
 from django.template.loader import render_to_string
+from iflame.utils import send_email_to_user
 # Create your views here.
 
 
@@ -178,13 +180,22 @@ class SignUpView(CreateView):
     success_url = '/iflame'
     template_name = 'registration/signup.html'
 
-    # def form_valid(self, form):
-    #     print('Form valid is calling')
-    #     return super().form_valid(form)
+    def form_valid(self, form):
+        print('Form valid is calling')
 
-    # def form_invalid(self, form):
-    #     print("invalid is calling")
-    #     return render(self.request, 'registration/signup.html', {'form': form})
+        subject = "Welcome to iflame institute."
+        message_body = "iFlame Institute is the best live Project Training Academy in Ahmedabad with the most advanced infrastructure and equipments in the market. We offer cutting-edge IT coaching services in Industrial Training, Project training and Internship training for BE, ME, BCA, MCA, Msc.IT, B.Tech, M.Tech and Diploma courses in various technologies like Android, IOS(iPhone), java, C, C++, ASP.Net, PHP, and other web development and web designing technologies."
+        to_user = "skakrecha@gmail.com"
+        send_email_to_user(
+            subject=subject,
+            message_body=message_body,
+            to_user=[to_user,],
+        )
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        print("invalid is calling")
+        return render(self.request, 'registration/signup.html', {'form': form})
 
 
 # def LogoutFunView(request):
@@ -242,13 +253,14 @@ def change_password(request):
 #     else:
 #         raise Http404
 
-from django.db.models import Q
+
 class SearchView(LoginRequiredMixin, ListView):
 
     model = StudentInformation
     template_name = 'iflame/student_list.html'
     context_object_name = 'search_results'
     login_url = '/'
+
     def get_queryset(self, *args, **kwargs):
 
         queryset = super(SearchView, self).get_queryset(*args, **kwargs)
@@ -256,7 +268,7 @@ class SearchView(LoginRequiredMixin, ListView):
         q = self.request.GET.get('q')
         if q:
             queryset = queryset.filter(Q(student__username__icontains=q) | Q(student__first_name__icontains=q) |
-                Q(course__name__icontains=q) | Q(course__content__icontains=q))
+                                       Q(course__name__icontains=q) | Q(course__content__icontains=q))
 
         # if self.request.is_ajax():
         #     search_results = json.dumps(queryset)
