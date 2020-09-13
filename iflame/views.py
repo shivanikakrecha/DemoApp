@@ -6,7 +6,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http import HttpResponse
-from iflame.models import StudentInformation
+from iflame.models import StudentInformation, Course
 from iflame.forms import CourseForm, StudentInformationForm, ContactForm, SignUpForm
 from django.views.generic import (
     ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView, RedirectView,
@@ -42,15 +42,37 @@ def StudentDetail(request, student_id):
 
 def CourseCreateView(request):
     context = {}
-    context['current_day'] = datetime.datetime.now()
-    form = CourseForm(request.POST or None)
-
-    if form.is_valid():
-        form.save()
-        return redirect('/')
-
-    context['form'] = form
+    if request.method == "POST":
+        form = CourseForm(request.POST, request.FILES)
+        if form.is_valid():
+            name = form.cleaned_data.get("name")
+            content = form.cleaned_data.get("content")
+            faculty = form.cleaned_data.get("faculty")
+            avtar = form.cleaned_data.get("avtar")
+            obj = Course.objects.create(
+                name=name,
+                content=content,
+                faculty=faculty,
+                avtar=avtar
+            )
+            obj.save()
+            print(obj)
+        else:
+            form = GeeksForm()
+        context['form'] = form
     return render(request, "iflame/create_course.html", context)
+
+# class CourseCreateView(CreateView):
+#     model = Course
+#     form_class = CourseForm
+#     template_name = 'iflame/create_course.html'
+#     success_url = '/iflame'
+
+#     def form_valid(self, form):
+#         import pdb; pdb.set_trace()
+#         """If the form is valid, save the associated model."""
+#         self.object = form.save()
+#         return super().form_valid(form)
 
 
 def StudentInformationView(request):
@@ -189,7 +211,7 @@ class SignUpView(CreateView):
         send_email_to_user(
             subject=subject,
             message_body=message_body,
-            to_user=[to_user,],
+            to_user=[to_user, ],
         )
         return super().form_valid(form)
 

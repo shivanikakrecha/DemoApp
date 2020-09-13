@@ -29,7 +29,8 @@ urlpatterns = [
     # path('posts/', include('post.urls')),
 
     # Iflame app urls
-    # path('iflame/', include('iflame.urls')),
+    path('iflame/', include('iflame.urls')),
+    path('restapisexa/', include('restapisexa.urls')),
     path('', LoginView.as_view(), name='login'),
     path('signup/', SignUpView.as_view(), name='signup'),
     path('logout/', LogoutFunView.as_view(), name='logout'),
@@ -48,6 +49,6 @@ urlpatterns = [
     path('password-change/done/', PasswordChangeDoneView.as_view(), name='password_change_done'),
 
 
-    path('project_task/', include('project_task.urls'))
+    # path('project_task/', include('project_task.urls'))
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

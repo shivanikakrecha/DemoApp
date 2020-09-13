@@ -1,55 +1,18 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
-
 {% block htmlbody %}
 		
 		{% block pagetitle %} Student List {% endblock pagetitle %}
-		
 
-		
+		{% comment %}
 		<form method="GET" action="{% url 'iflame:search_view'  %}">
 			<input type="text" name="q"  >
 			<button type="submit">search</button>
 
 		</form>
-		{% if search_results %}
-			{% for student in search_results %}
-				<div class="card">
-					{% if student.course.avtar %}
-						<img src="{{ student.course.avtar.url }}" alt="Denim Jeans" style="width:100%">
-					{% else %}
-						<img src="{{ student.course.avtar }}" alt="Denim Jeans" style="width:100%">
-					{% endif %}	
-				    <h1>{{ student.student }}</h1>
-				    <p class="price">{{ student.course }}</p>
-				    <p>{{ student.course.content }}</p>
-				    <p><button>Add to Cart</button></p>
-				</div>
-			{% endfor %}
 
-		{% else %}
-
-			{% for student in students %}
-				<div class="card">
-					{% if student.course.avtar %}
-						<img src="{{ student.course.avtar.url }}" alt="Denim Jeans" style="width:100%">
-					{% else %}
-						<img src="{{ student.course.avtar }}" alt="Denim Jeans" style="width:100%">
-					{% endif %}	
-				    <h1>{{ student.student }}</h1>
-				    <p class="price">{{ student.course }}</p>
-				    <p>{{ student.course.content }}</p>
-				    <p><button>Add to Cart</button></p>
-				</div>
-
-			{% endfor %}
-
-		{% endif %}
-
-
-		<!-- <table>
+		<table>
 			<tr>
 				<th>Student ID</th>
 				<th>Student Name</th>
@@ -86,8 +49,9 @@
 								<td>{{ student.course.avtar }}</td>
 							{% endif %}
 							<td>
-								<a href="{% url 'iflame:student_edit' student.id %}">
-								<button>Edit</button></a>
+								<!-- <a href="{% url 'iflame:student_edit' student.id %}"> -->
+								<button class="edit_button_student_list">Edit</button>
+							<!-- </a> -->
 							</td>
 							<td>
 								
@@ -123,8 +87,9 @@
 							<td>{{ student.course.avtar }}</td>
 						{% endif %}
 						<td>
-							<a href="{% url 'iflame:student_edit' student.id %}">
-							<button>Edit</button></a>
+							<!-- <a href="{% url 'iflame:student_edit' student.id %}"> -->
+							<button class="edit_button_student_list">Edit</button>
+						<!-- </a> -->
 						</td>
 						<td>
 							
@@ -137,9 +102,96 @@
 				{% endfor %}
 
 			{% endif %}
- -->
-					
 
 		</table>
+		{% endcomment %}
+
+
+		<!-- Trigger/Open The Modal -->
+		
+
+		{% for student in students %}
+			<button class="myBtn" data-username="{{student.student.username}}">{{ student.student.username }}</button>
+			
+		{% endfor %}
+
+		<!-- The Modal -->
+		<div id="myModal" class="modal" style="display: none;">
+
+		  <!-- Modal content -->
+		  <div class="modal-content">
+		    <span class="close">&times;</span>
+		    <div class='con'></div>
+		  </div>
+
+		</div>
+
+		
 {% endblock htmlbody %}
+
+{% block javascript_methods %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/custom.css' %}">
+
+	<script type="text/javascript">
+
+		
+
+		var modal = document.getElementById("myModal");
+		var url = 'https://jsonplaceholder.typicode.com/users'
+		var current_model = null
+		var contact_list = []
+		var content_data = null
+		var span_close = document.getElementsByClassName("close")
+
+
+		// function ajax_call(){
+		// 	$.ajax({  
+  //                url: url,  
+  //                type: 'GET',  
+  //                dataType: 'json',  
+  //                success: function (data, textStatus, xhr) {
+  //                   for (var i=0; i <= data.length; i++){
+  //                   	content_data = data[i]
+  //                   	contact_list.push(content_data)
+		// 				$('.con').html('<p>'+content_data+'</p>')
+
+  //                   }
+  //                   $('#myModal').css('display', 'block');	
+  //                },  
+  //                error: function (xhr, textStatus, errorThrown) {  
+  //                    console.log('Error in Operation');  
+  //                }  
+  //            });  
+		// }
+
+		$('.myBtn').on('click', function(){
+			var student_id = $(this).data("username")
+			current_model = student_id
+			$('.con').html('<p>'+student_id+'</p>')
+			$('#myModal').css('display', 'block');
+
+
+			// ajax_call()
+			// .done(function(res) {
+			   
+			})
+			// var ajax_call = await ajax_call()
+			
+		// })
+
+		$('.close').on('click', function() {
+			$('#myModal').css('display', 'none');
+		})
+
+		// When the user clicks anywhere outside of the modal, close it
+		window.onclick = function(event) {
+			if (event.target == modal){
+				$('#myModal').css('display', 'none');
+			}
+		}
+
+	</script>
+
+{% endblock javascript_methods %}
+
 

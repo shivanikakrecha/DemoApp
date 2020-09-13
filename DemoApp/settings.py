@@ -40,7 +40,11 @@ INSTALLED_APPS = [
 
     'post',
     'iflame',
-    'project_task'
+    'project_task',
+    'restapisexa',
+
+    'rest_framework',
+    'rest_framework_swagger'
 ]
 
 MIDDLEWARE = [
@@ -149,3 +153,19 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'iflametestdjango@gmail.com'
 
 EMAIL_HOST_PASSWORD = 'qwerty@123'
+
+REST_FRAMEWORK = {
+    
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    # ]
+
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication'
+    )
+}
